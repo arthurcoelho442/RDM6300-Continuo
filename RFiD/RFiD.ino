@@ -5,19 +5,21 @@
 #include "RDM6300.h"
 
 //Inicializa a serial nos pinos 12 (RX) e 13 (TX) 
-SoftwareSerial RFID(D6, D7);
+SoftwareSerial RFID(D6, D8);
 
 //Configura o led na porta digital D2
 int Led = D4;
+int rele = D7;
 
 uint8_t Payload[6]; // used for read comparisons
 
-RDM6300 RDM6300(Payload, D6, D7);
+RDM6300 RDM6300(Payload, D6, D8);
 
 void setup()
 {
   //Define o pino do led como saida
   pinMode(Led, OUTPUT);
+  pinMode(rele, OUTPUT);
   
   //Inicializa a serial para o leitor RDM6300
   RFID.begin(9600);
@@ -34,6 +36,7 @@ void loop()
   //Apaga o led
   delay(100);
   digitalWrite(Led, HIGH);
+  digitalWrite(rele, LOW);
   
   //Aguarda a aproximacao da tag RFID
   while (RFID.available() > 0) {
